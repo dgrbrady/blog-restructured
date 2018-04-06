@@ -1,13 +1,16 @@
 from flask import Flask, request, render_template
 from flask_bootstrap import Bootstrap
+from flask_moment import Moment
+from datetime import datetime
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 @app.route('/')
 def index():
     user_agent = request.headers.get('User-Agent')
-    return render_template("index.html", user_agent=user_agent)
+    return render_template("index.html", user_agent=user_agent, current_time=datetime.utcnow())
 
 @app.route('/<user>')
 def user(user):
