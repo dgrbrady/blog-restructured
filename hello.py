@@ -7,7 +7,7 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 import os
 from flask_sqlalchemy import SQLAlchemy
-
+from flask_migrate import Migrate
 
 class NameForm(FlaskForm):
     name = StringField('What is your name?', validators=[DataRequired()])
@@ -24,6 +24,7 @@ app.config['SQLACLHEMY_TRACK_MODIFICATIONS'] = False
 bootstrap = Bootstrap(app)
 moment = Moment(app)
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -83,6 +84,6 @@ class User(db.Model):
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, User=User, Role=Role)
-    
+
 if __name__ == '__main__':
     app.run(debug=True)
